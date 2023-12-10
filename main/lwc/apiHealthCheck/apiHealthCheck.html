@@ -1,0 +1,124 @@
+<template>
+    <div class="container">
+    <lightning-card>
+            <div class="slds-grid" style="padding-left:10px" >
+                <div class="slds-col"><lightning-button label="Add Config" variant="brand" onclick={openRequestBody}></lightning-button></div>
+                <div class="slds-col slds-align_right" style="margin-right:-570px"><lightning-button label="Run Check" variant="brand" onclick={fetchRecords}></lightning-button></div>
+            </div>
+            <template if:true={RequestBodyModal}>
+                <div class="PopupBox">
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closePopup}>
+                                    <lightning-icon icon-name="utility:close"
+                                        alternative-text="close"
+                                        variant="inverse"
+                                        size="small" ></lightning-icon>
+                                </button>
+                                <h2><B>ADD CONFIGURATION</B></h2>
+                            </header>
+                            <div class="slds-modal__content">
+                                <div class="cust-box">
+                                    <lightning-layout>
+                                        <div class="slds-grid">
+                                            <div>
+                                                <lightning-input label = "Rest API endpoint" placeholder ='Enter URL'  onfocusout={onUrlChange} value={urlValue} style="padding-top:20px;padding-left:20px;width: 400px;" disabled={inputsDisabled} required=true></lightning-input>
+                                            </div>
+                                            <div>
+                                                <lightning-combobox label="Method"
+                                                                style="padding-top:20px;padding-left:20px;width: 200px"
+                                                                value={methodValue}
+                                                                options={methodOptions}
+                                                                onchange={handleMethodChange}
+                                                                disabled={inputsDisabled}>
+                                            </lightning-combobox>
+                                            </div>
+                                        </div>
+                                    </lightning-layout>
+                                    <br/>
+                                    <lightning-layout >
+                                        <lightning-combobox
+                                                        label="Add authentication"
+                                                        style="width: 200px;padding-left:20px"
+                                                        value={authvalue}
+                                                        options={authOptions}
+                                                        onchange={handleAuthChange}
+                                                        disabled={inputsDisabled}>
+                                        </lightning-combobox>
+                                        <lightning-layout-item if:true={basicAuth} style="padding-left:50px;width:470px; padding-right:15px;">
+                                            <lightning-input label="Username" onfocusout={usernameChange} value={username} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                            <lightning-input label="Password" onfocusout={passwordChange} value={password} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item if:true={oAuth} style="padding-left: 50px;width: 470px;padding-right:15px;">
+                                            <lightning-input label="Username" onfocusout={usernameChange} value={username} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                            <lightning-input  label="Password" onfocusout={passwordChange} value={password} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                            <lightning-input label="Grant type" onfocusout={grantTypeChange} value={grantType} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                            <lightning-input label="Client id" onfocusout={clientIdChange} value={clientId} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                            <lightning-input label="Client secret" onfocusout={clientSecretChange} value={clientSecret} disabled={inputsDisabled} placeholder="enter a value..."></lightning-input>
+                                            <lightning-input label="Access token URL" onfocusout={accessTokenUrlChange} value={accessTokenUrl} disabled={inputsDisabled}></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item if:true={bearerToken} style="padding-left: 50px;width: 470px;padding-right:15px;">
+                                            <lightning-input label="Bearer token" onfocusout={bearerTokenValueChange} value={token} disabled={inputsDisabled}></lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <br/>
+                                    <!-- <div class="slds-grid slds-gutters"> -->
+                                        <!-- <div class="slds-col">
+                                            <span>
+                                                <lightning-layout for:each={forms} for:item="form" key={form} for:index="i" style="padding-left: 20px;">
+                                                    <lightning-input onfocusout={keyChangeHandler} data-index={i}   value={key} placeholder="key...">
+                                                    </lightning-input>
+                                                    <lightning-input onfocusout={valueChangeHandler} data-index={i} style="padding-left:10px;padding-bottom:10px;"  value={value} placeholder="value...">
+                                                    </lightning-input>
+                                                    <lightning-button-icon  icon-name="utility:delete" onclick={delClicked} data-index={i} style="padding-left: 10px;padding-top:20px;" disabled={inputsDisabled}></lightning-button-icon>
+                                                </lightning-layout>
+                                            </span>
+                                        </div> -->
+                                        <div class="slds-col">
+                                            <span>
+                                                <lightning-layout-item>
+                                                    <lightning-textarea label="Body in JSON format" value={jsonBodyValue} style="padding-left:20px;width:550px;" class="custom-textarea" onchange={handleBody}></lightning-textarea>
+                                                    <div style="padding-top:10px;">
+                                                        <lightning-button variant="brand" label="Clear" class="slds-var-m-around_large" onclick={clearBody} disabled={inputsDisabled}></lightning-button>
+                                                    </div>
+                                                    
+                                                </lightning-layout-item>
+                                            </span>
+                                        </div>
+                                        <br/>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                            <!-- Modal/Popup Box LWC footer starts here -->
+                            <footer class="slds-modal__footer">
+                                <div class="slds-align_right">
+                                    <div class="Verify">
+                                        <button class="slds-button slds-button_brand" onclick={handleVerifyDetails} title="Verify Details">Verify Details</button>
+                                        <button class="slds-button slds-button_brand" onclick={handleSaveDetails} title="Save Details">Save Details</button>
+                                    </div>
+                                </div>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+            <div style="padding-bottom:20px"></div>
+    <div class="slds-grid">
+        <span class="slds-col">
+            <c-api-health-report></c-api-health-report>
+        </span>
+        <span class="slds-col" style="width:400px;margin-top:-30px;">Response Body
+            <div class="textArea">
+                    <template for:each={response} for:item="res">
+                    <c-response-body key={res.apiName} api-name={res.apiName} status-code={res.statusCode} body={res.body}></c-response-body>
+                    </template>
+            </div>
+        </span>
+    </div>
+
+
+</lightning-card>
+</div>
+</template>

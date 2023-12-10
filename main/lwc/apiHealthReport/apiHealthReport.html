@@ -1,0 +1,16 @@
+<template>
+  <div class="setReportMargin mediaReport">
+    <div class="slds-grid slds-wrap slds-gutters">
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+        <div class="styleReport">
+          <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+          </template>
+          <div class="widthReport">
+            <canvas data-ersatz-aura-id="activeChart" width=500px height=300px style="padding: 0px 0px 0px 0px; width:500px;height:300px"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

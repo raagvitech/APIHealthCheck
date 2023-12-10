@@ -1,0 +1,14 @@
+.box{
+    margin: 5px 20px 5px 20px ;
+    border: 1px solid black;
+}
+.successCard{
+    margin: 5px 20px 5px 20px ;
+    border: 1px solid black;
+    border: 1px solid green;
+}
+.failureCard{
+    margin: 5px 20px 5px 20px ;
+    border: 1px solid black;
+    border: 1px solid red;
+}

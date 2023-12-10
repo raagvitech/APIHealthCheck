@@ -1,0 +1,14 @@
+.styleReport {
+    width: 500px;
+    padding: 0px;
+    display: flex;
+    height: 350px;
+    background-color:white;
+}
+.widthReport{
+    width: 500px;
+    padding: 0px;
+    display: flex;
+    height: 300px;
+    align-content: center;
+}

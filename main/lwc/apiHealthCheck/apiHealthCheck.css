@@ -1,0 +1,24 @@
+.AddConfigButton{
+    padding-bottom: 20px;
+    padding-left: 10px;
+    }
+    .GetResponseButton{
+        text-align: right;
+        padding-bottom: 20px;
+        padding-right: 10px;
+    }
+    .PopupBox{
+        width: 1500px;
+    }
+    :host{
+        --slds-c-input-radius-border:0px;
+        --slds-c-button-radius-border:0px;
+        --slds-c-textarea-radius-border:0px;
+    }
+    .textArea{
+        border: 2px solid #8C532A;
+        margin: 10px;
+    }
+    .container{
+        width: 800px;
+    }
